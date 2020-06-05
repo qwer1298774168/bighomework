@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file>mode/72dcfc0b214ae8fe6921bdf3afb197de.jpg</file>
+        <file>mode/addtower.png</file>
+        <file>mode/bdb2f5ab955d75d280d8e5350a610065.jpg</file>
+        <file>mode/dengjie.png</file>
+        <file>mode/easy.png</file>
+        <file>mode/enemya.png</file>
+        <file>mode/enemyb.png</file>
+        <file>mode/enemyc.png</file>
+        <file>mode/hard.jpg</file>
+        <file>mode/hard2.png</file>
+        <file>mode/map3.jpg</file>
+        <file>mode/map4.jpg</file>
+        <file>mode/mode.cpp</file>
+        <file>mode/play1.png</file>
+        <file>mode/play2.png</file>
+        <file>mode/rule1.png</file>
+        <file>mode/rule2.png</file>
+        <file>mode/source1.png</file>
+        <file>mode/start.jpg</file>
+        <file>mode/start2.jpg</file>
+        <file>mode/TOWERA1.jpg</file>
+        <file>mode/towera1.png</file>
+        <file>mode/towera2.png</file>
+        <file>mode/towerb1.png</file>
+        <file>mode/towerb2.png</file>
+        <file>mode/无标题.png</file>
+    </qresource>
+</RCC>

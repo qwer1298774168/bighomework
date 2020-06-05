@@ -54,4 +54,5 @@ FORMS += \
         mainwindow.ui
 
 RESOURCES += \
+    mode.qrc \
     mode.qrc
