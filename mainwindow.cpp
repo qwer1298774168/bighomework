@@ -19,17 +19,19 @@ MainWindow::MainWindow(QWidget *parent) :
     choose= new Choose;
     //延时进入到下一个场景
     connect(start,&Button1::clicked,[=](){
-          qDebug()<<"hh";
+
           //进入下一个场景
           QTimer::singleShot(500,this,[=](){
               this->hide();
               choose ->show();
           });
     });
+    //设置进入规则界面的按钮
     Button2 * rule1 = new Button2(":/mode/rule1.png",":/mode/rule2.png");
     rule1->setParent(this);
     rule1->move(800,400);
     rule=new Rule;
+    //进入规则界面
     connect(rule1,&Button2::clicked,[=](){
         QTimer::singleShot(500,this,[=](){
             this->hide();

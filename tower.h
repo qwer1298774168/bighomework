@@ -15,16 +15,17 @@ public:
     void draw(QPainter *painter);
     void draw2(QPainter *painter) ;
     int range();//·µ»Ø·ÀÓùËş·¶Î§
-    bool level();//·µ»Ø·ÀÓùËşµÈ¼¶
+    int level();//·µ»Ø·ÀÓùËşµÈ¼¶
     bool hasTower();
     void placeTower();
     void removeTower();
     void upload();
+    int Returndamage();//·µ»Ø·ÀÓùËşµÄÉËº¦
 private:
     QPoint _pos;
     QPixmap _sprite;
     QPixmap _sprite2;
-    bool lv;
+    int lv;
     bool _istower;
     int _range;
     int _damage;

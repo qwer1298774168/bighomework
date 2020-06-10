@@ -2,13 +2,75 @@
 #include<QPainter>
 #include<QMouseEvent>
 #include<QDebug>
-
+#include<QTimer>
+#include<time.h>
+#include<windows.h>
+#include"turnpoint.h"
+#include"button1.h"
+#include"enemy.h"
+#include<cstdlib>
 Easylevel::Easylevel(QWidget *parent) : QMainWindow(parent)
 {
+    counter=0;
     this->setFixedSize(1200,800);
     loadTowerposition();
     wayPoint();
+    Button1 * add1 = new Button1(":/mode/play1.png");
+    add1->setParent(this);
+    add1->move(0,0);
+    connect(add1 ,&Button1::clicked,this,[=](){
+        //每过多少时间间隔更新一次界面
+        add1->move(1600,1600);
+           QTimer::singleShot(10,this,[=]{
+            QTimer * timer = new QTimer(this);
+            connect(timer,&QTimer::timeout,this,&Easylevel::gengxin);
+            timer->start(8);
+            QTimer * timer2 = new QTimer(this);
+            connect(timer2,&QTimer::timeout,this,&Easylevel::addEnemy);
+            timer2->start(2000);
 
+        });
+    });
+}
+
+//添加怪兽
+void Easylevel::addEnemy(){
+    counter++;
+    TurnPoint *startpos = turnpoint_list.back();
+    if(counter<=6){
+    Enemy *enemy1 = new Enemy(startpos);
+    enemy1->setactive();
+    enemy_list.push_back(enemy1);
+    }
+    if(counter>6&&counter<=12){
+    qDebug()<<"update";
+    Enemy *enemy2 = new Enemy(startpos);
+    enemy2->update();
+    enemy2->setactive();
+    enemy_list.push_back(enemy2);
+    qDebug()<<enemy2->level();
+    }
+    if(counter>12&&counter<=18){
+        Enemy *enemy3 = new Enemy(startpos);
+        enemy3->update();
+        enemy3->update();
+        enemy3->setactive();
+        qDebug()<<enemy3->returnlife();
+        enemy_list.push_back(enemy3);
+        qDebug()<<enemy3->level();
+    }
+
+}
+//返回怪兽的list
+QList<Enemy *> Easylevel::enemyList(){
+    return enemy_list;
+}
+//定时更行界面
+void Easylevel::gengxin(){
+    foreach(Enemy*enemy1,enemy_list){
+        enemy1->move();
+    }
+    update();
 }
 //将怪物行走的位置储存在qlist中
 void Easylevel::wayPoint(){
@@ -83,12 +145,19 @@ void Easylevel::paintEvent(QPaintEvent *){
         towerposition.draw(&painter);
     //绘制防御塔
     foreach(Tower *tower,tower_list){
-        qDebug()<<"success";
+        if(tower->hasTower()){
         tower->draw(&painter);}
+    }
     //绘制路径
     foreach(const TurnPoint *turnpoint,turnpoint_list){
-        qDebug()<<"turn";
-        turnpoint->draw(&painter);}
+        turnpoint->draw(&painter);
+    }
+    foreach(Enemy *enemy1,enemy_list){
+        if(enemy1->returnlife()){
+
+        enemy1->draw0(&painter);
+        }
+    }
     //绘制阿等
     QPixmap pix2;
     pix2.load(":/mode/dengjie.png");
@@ -106,19 +175,28 @@ void Easylevel::mousePressEvent(QMouseEvent *event){
     //list的循环结构
     auto it=towerposition_list.begin();
     while(it!=towerposition_list.end()) {
-
-        if(it->containPoint(pressPos)&&!it->hastower()){
-            qDebug()<<it->hastower();
-            it->addtower();
+        if(it->containPoint(pressPos)){
             Tower *tower=new Tower(it->centerPos());
-            tower_list.push_back(tower);
-            tower->hasTower();
-            qDebug()<<"level:"<<tower->level();
-            update();
-            qDebug()<<it->hastower();
-            qDebug()<<"level2:"<<tower->level();
+           if(!it->hastower()&&it->ReturnTowerlevel()==0){
+                it->addtower();
+                tower->placeTower();
+                update();
+                qDebug()<<it->ReturnTowerlevel()<<"fuck";
+            }
+           else if(it->hastower()){
+               qDebug()<<"remove ready";
+               tower->removeTower();
+               qDebug()<<tower->hasTower();
+               it->removethistower();
+               update();
+            }
+             tower_list.push_back(tower);
+           // else if(it->hastower()){
+             //   tower->removeTower();
+             //   update();
+           // }
+         }
 
-        }
         ++it;
     }
 

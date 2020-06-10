@@ -8,7 +8,7 @@ public:
     TurnPoint(QPoint pos);
     void next(TurnPoint *nextpoint);
     TurnPoint*nextPoint()const;
-    const QPoint pos()const;
+    const QPoint pos() const;
     void draw(QPainter *painter)const;
 private:
     const QPoint _pos;

@@ -26,5 +26,6 @@
         <file>mode/towerb1.png</file>
         <file>mode/towerb2.png</file>
         <file>mode/无标题.png</file>
+        <file>mode/icon_gold.png</file>
     </qresource>
 </RCC>

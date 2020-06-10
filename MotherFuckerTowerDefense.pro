@@ -35,7 +35,8 @@ SOURCES += \
     turnpoint.cpp \
     enemy.cpp \
     button2.cpp \
-    rule.cpp
+    rule.cpp \
+    fire.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,7 +49,8 @@ HEADERS += \
     turnpoint.h \
     enemy.h \
     button2.h \
-    rule.h
+    rule.h \
+    fire.h
 
 FORMS += \
         mainwindow.ui

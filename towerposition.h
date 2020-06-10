@@ -15,9 +15,13 @@ public:
     bool containPoint(const QPoint &pos) const;//判断鼠标点的位置是否能够放置防御塔
     void draw(QPainter * paniter)const;
     QPoint position();
+    int ReturnTowerlevel();
+    void upthistower();
+    void removethistower();
 private:
     QPoint _pos;
     bool _hastower;
+    int level;
     QPixmap _sprite;
     static const QSize _fixedsize;//定义可以点击的坐标范围大小
 };

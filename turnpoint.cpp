@@ -14,14 +14,14 @@ TurnPoint* TurnPoint::nextPoint()const{
     return _nextPoint;
 }
 //返回该点坐标
-const QPoint TurnPoint::pos()const{
+ const QPoint TurnPoint::pos() const{
     return _pos;
 }
 //绘制怪物行走的路线
 void TurnPoint::draw(QPainter *painter) const{
     //此处学习csdn上面的代码
     painter->save();
-    painter->setPen(Qt::white);
+    painter->setPen(Qt::black  );
     painter->drawEllipse(_pos,10,10);
 
     if(_nextPoint)

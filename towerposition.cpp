@@ -5,6 +5,7 @@ Towerposition::Towerposition(QPoint pos,const QPixmap &sprite)
     :_pos(pos)
     ,_hastower(false)
     ,_sprite(sprite)
+    ,level(0)
 {}
 const QPoint Towerposition::centerPos()const
 {
@@ -23,6 +24,17 @@ bool Towerposition::hastower()const
 }
 void Towerposition::addtower(bool hastower){
     _hastower=hastower;
+    level=1;
+}
+int Towerposition::ReturnTowerlevel(){
+    return level;
+}
+void Towerposition::upthistower(){
+    level=2;
+}
+void Towerposition::removethistower(){
+    level=0;
+    _hastower=false;
 }
 void Towerposition::draw(QPainter *paniter) const
 {
