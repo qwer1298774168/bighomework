@@ -5,7 +5,7 @@ Fire::Fire(QPoint startpos, QPoint endpos, Enemy * target) :
   , _endpos(endpos)
   , _target(target)
 {
-    damage=10;
+    damage=20;
 }
 QPoint Fire::currentPos(){
     return _currentpos;
