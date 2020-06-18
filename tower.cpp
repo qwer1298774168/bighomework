@@ -11,7 +11,7 @@
 Tower::Tower(QPoint pos, Easylevel *easy, QPixmap sprite1,  QPixmap sprite2) : QObject(0),_pos(pos),_sprite(sprite1),target(NULL)
 {
      lv=0;
-     firerate=100;
+     firerate=200;
      _istower=false;
      _range=240;
      _damage=1;
@@ -109,6 +109,11 @@ void Tower::outofrange()
         target=NULL;
     }
     rate->stop();
+}
+
+QPoint Tower::returnpoint()
+{
+    return _pos;
 }
 int Tower::range(){
     return _range;

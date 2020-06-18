@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     Button1 * start = new Button1(":/mode/play1.png",":/mode/play2.png");
     start ->setParent(this);
     //开始按钮的位置
-    start ->move(800,250);
+    start ->move(200,500);
     choose= new Choose;
     //延时进入到下一个场景
     connect(start,&Button1::clicked,[=](){
@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //设置进入规则界面的按钮
     Button2 * rule1 = new Button2(":/mode/rule1.png",":/mode/rule2.png");
     rule1->setParent(this);
-    rule1->move(800,400);
+    rule1->move(200,620);
     rule=new Rule;
     //进入规则界面
     connect(rule1,&Button2::clicked,[=](){
@@ -45,7 +45,7 @@ void MainWindow::paintEvent(QPaintEvent *){
    QPainter painter(this);
    QPixmap back;
    //加载图片
-   back.load(":/mode/start.jpg");
+   back.load(":/mode/background.png");
    //绘制图片
    painter.drawPixmap(0,0,this->width(),this->height(),back);
 }

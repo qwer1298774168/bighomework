@@ -27,10 +27,16 @@ public:
     void removefire(Fire * fire);
     void removeoneenemy(Enemy * enemy2);
     QList<Enemy*>          enemy_list;
+    bool canbuytower();
+    void drawgold(QPainter * painter);
 private slots:
     void addEnemy();
     void gengxin();
 private:
+    int gold;
+    int i;
+    int reward;
+    int cost;
     int counter;
     int counter2;
     QList<Towerposition>   towerposition_list;

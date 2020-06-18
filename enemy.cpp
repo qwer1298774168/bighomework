@@ -13,7 +13,7 @@ Enemy::Enemy(TurnPoint *startpos, Easylevel *easy):QObject(0){
     _active=false;
     _lv=1;
     speed=0.8;
-    HP=1;
+    HP=40;
     this->easy=easy;
 }
 Enemy::~Enemy(){
@@ -48,7 +48,8 @@ void Enemy::removeenemy(){
     }
     foreach(Tower * tower, attackenemy_list){
         tower->enemykilled();
-        easy->removeoneenemy(this);}
+        }
+    easy->removeoneenemy(this);
 
 }
 //判断怪物是否到达转折点

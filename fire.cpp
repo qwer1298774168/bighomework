@@ -15,7 +15,7 @@ void Fire::setCurrentpos(QPoint pos){
     _currentpos=pos;
 }
 void Fire::draw(QPainter *paniter){
-    paniter->drawPixmap(_currentpos.x(),_currentpos.y(),QPixmap(":/mode/icon_gold.png"));
+    paniter->drawPixmap(_currentpos.x(),_currentpos.y(),60,60,QPixmap(":/mode/huajitower.png"));
 }
 void Fire::move(){
     QPropertyAnimation *animation = new QPropertyAnimation(this, "_currentpos");

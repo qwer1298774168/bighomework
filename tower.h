@@ -14,7 +14,7 @@ class Tower : public QObject
 {
     Q_OBJECT
 public:
-    Tower(QPoint pos, Easylevel *easy, QPixmap sprite1=QPixmap(":/mode/towera1.png"), QPixmap sprite2=QPixmap(":/mode/towera2.png"));
+    Tower(QPoint pos, Easylevel *easy, QPixmap sprite1=QPixmap(":/mode/huajitower.png"), QPixmap sprite2=QPixmap(":/mode/towera2.png"));
     ~Tower();
     void draw(QPainter *painter);
     void draw2(QPainter *painter) ;
@@ -31,6 +31,7 @@ public:
     void attackenemy();
     void enemykilled();
     void outofrange();
+    QPoint returnpoint();
 private:
     Enemy * target;
     QTimer* rate;
