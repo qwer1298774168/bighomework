@@ -6,18 +6,50 @@
 #include<time.h>
 //Enemy::Enemy(QObject *parent) : QObject(parent)
 //Enemy的构造函数
-Enemy::Enemy(TurnPoint *startpos):QObject(0){
+Enemy::Enemy(TurnPoint *startpos, Easylevel *easy):QObject(0){
     this->_pos=startpos->pos();
     this->_pos1=startpos->pos();
     this->_pos2=startpos->nextPoint();
     _active=false;
     _lv=1;
     speed=0.8;
-    HP=40;
+    HP=1;
+    this->easy=easy;
+}
+Enemy::~Enemy(){
+    attackenemy_list.clear();
+    easy=NULL;
+    _pos2=NULL;
 }
 int Enemy::random(){
 
     return rand()%(3)+0;
+}
+void Enemy::hpdown(int damage){
+    HP=HP-damage;
+    if(HP<=0){
+        removeenemy();
+    }
+}
+
+int Enemy::ReturnHP()
+{
+    return HP;
+}
+void Enemy::beenattacked(Tower * tower){
+    attackenemy_list.push_back(tower);
+}
+void Enemy::runoutofrange(Tower * tower){
+    attackenemy_list.removeOne(tower);
+}
+void Enemy::removeenemy(){
+    if(attackenemy_list.empty()){
+        return;
+    }
+    foreach(Tower * tower, attackenemy_list){
+        tower->enemykilled();
+        easy->removeoneenemy(this);}
+
 }
 //判断怪物是否到达转折点
 bool Enemy::judge(QPoint point1,int a,QPoint point2,int b){
@@ -91,7 +123,7 @@ bool Enemy::returnlife(){
 }
 //返回当前坐标
 QPoint Enemy::returnCurrentpoint(){
-    return this->_pos;
+    return _pos;
 }
 //设置当前坐标
 void Enemy::setPoint(QPoint pos){

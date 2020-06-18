@@ -3,15 +3,19 @@
 
 #include <QObject>
 #include<QPoint>
+#include<QTimer>
 #include<QPixmap>
 #include<QPainter>
+#include"fire.h"
+#include"easylevel.h"
 class Easylevel;
-
+class Enemy;
 class Tower : public QObject
 {
     Q_OBJECT
 public:
-    Tower(QPoint pos,  QPixmap sprite1=QPixmap(":/mode/towera1.png"), QPixmap sprite2=QPixmap(":/mode/towera2.png"));
+    Tower(QPoint pos, Easylevel *easy, QPixmap sprite1=QPixmap(":/mode/towera1.png"), QPixmap sprite2=QPixmap(":/mode/towera2.png"));
+    ~Tower();
     void draw(QPainter *painter);
     void draw2(QPainter *painter) ;
     int range();//∑µªÿ∑¿”˘À˛∑∂Œß
@@ -21,7 +25,16 @@ public:
     void removeTower();
     void upload();
     int Returndamage();//∑µªÿ∑¿”˘À˛µƒ…À∫¶
+    void chooseenemy(Enemy*enemy);
+    bool judge(QPoint point1,int a,QPoint point2,int b);//≈–∂œ «∑Ò”–µ–»À
+    void judgeenemtinrange();
+    void attackenemy();
+    void enemykilled();
+    void outofrange();
 private:
+    Enemy * target;
+    QTimer* rate;
+    Easylevel * easylevel;
     QPoint _pos;
     QPixmap _sprite;
     QPixmap _sprite2;
@@ -29,6 +42,9 @@ private:
     bool _istower;
     int _range;
     int _damage;
+    int firerate;
+private slots:
+    void weapon();
 signals:
 
 public slots:

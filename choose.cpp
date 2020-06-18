@@ -16,7 +16,6 @@ Choose::Choose(QWidget *parent) : QMainWindow(parent)
     easy->move(0,250);
     easylevel=new Easylevel;
     connect(easy,&Button1::clicked,[=](){
-          qDebug()<<"jj";
           easy->tiao();
           easy->jiang();
           //进入下一个场景
@@ -28,7 +27,6 @@ Choose::Choose(QWidget *parent) : QMainWindow(parent)
     });
     hardlevel=new Hardlevel;
     connect(hard,&Button1::clicked,[=](){
-          qDebug()<<"jj";
           hard->tiao();
           hard->jiang();
           //进入下一个场景
