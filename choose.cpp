@@ -30,8 +30,8 @@ Choose::Choose(QWidget *parent) : QMainWindow(parent)
 void Choose::paintEvent(QPaintEvent *){
     //进入关卡选择页面
     QPainter painter(this);
-    QPixmap pix;
-    pix.load(":/mode/start2.jpg");
-    painter.drawPixmap(0,0,this->width(),this->height(),pix);
+    QPixmap pix1;
+    pix1.load(":/mode/start2.jpg");
+    painter.drawPixmap(0,0,this->width(),this->height(),pix1);
 
 }

@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include"easylevel.h"
-#include"hardlevel.h"
 class Choose : public QMainWindow
 {
     Q_OBJECT
