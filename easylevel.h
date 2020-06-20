@@ -29,16 +29,24 @@ public:
     QList<Enemy*>          enemy_list;
     bool canbuytower();
     void drawgold(QPainter * painter);
+    void drawhp(QPainter * painter);
+    void getDamagedeng();
+    void setlost();
+    void setwin();
 private slots:
     void addEnemy();
     void gengxin();
 private:
     int gold;
     int i;
+    int deng;
     int reward;
     int cost;
+    int cost2;
     int counter;
     int counter2;
+    bool win;
+    bool lost;
     QList<Towerposition>   towerposition_list;
     QList<Tower*>          tower_list;
     QList<TurnPoint*>      turnpoint_list;

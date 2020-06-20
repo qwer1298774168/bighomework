@@ -28,7 +28,6 @@ SOURCES += \
         mainwindow.cpp \
     button1.cpp \
     choose.cpp \
-    hardlevel.cpp \
     easylevel.cpp \
     towerposition.cpp \
     tower.cpp \
@@ -42,7 +41,6 @@ HEADERS += \
         mainwindow.h \
     button1.h \
     choose.h \
-    hardlevel.h \
     easylevel.h \
     towerposition.h \
     tower.h \

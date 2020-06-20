@@ -16,14 +16,15 @@ MainWindow::MainWindow(QWidget *parent) :
     start ->setParent(this);
     //开始按钮的位置
     start ->move(200,500);
-    choose= new Choose;
+
+    easy=new Easylevel;
     //延时进入到下一个场景
     connect(start,&Button1::clicked,[=](){
 
           //进入下一个场景
           QTimer::singleShot(500,this,[=](){
               this->hide();
-              choose ->show();
+              easy ->show();
           });
     });
     //设置进入规则界面的按钮

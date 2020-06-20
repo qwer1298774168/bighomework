@@ -11,6 +11,7 @@
 Tower::Tower(QPoint pos, Easylevel *easy, QPixmap sprite1,  QPixmap sprite2) : QObject(0),_pos(pos),_sprite(sprite1),target(NULL)
 {
      lv=0;
+     type=0;
      firerate=200;
      _istower=false;
      _range=240;
@@ -24,20 +25,29 @@ Tower::~Tower(){
     delete rate;
     rate=NULL;
 }
+void Tower::settype(int m){
+    type=m;
+}
 void Tower::draw2(QPainter *painter){
     painter->drawPixmap(_pos.x()-130,_pos.y()-130,260,260,_sprite2);
     painter->drawEllipse(_pos,_range,_range);
 }
 void Tower::draw(QPainter *painter){
     painter->setPen(Qt::black);
+    if(type==2){
     if(lv==1){
         painter->save();
-        painter->drawPixmap(_pos.x()-55,_pos.y()-55,110,110,_sprite);
+        painter->drawPixmap(_pos.x()-55,_pos.y()-55,110,110,QPixmap(":/mode/dogetower.png"));
         painter->restore();
     }
     else if(lv==2){
         painter->save();
-        painter->drawPixmap(_pos.x()-130,_pos.y()-130,260,260,_sprite2);
+        painter->drawPixmap(_pos.x()-55,_pos.y()-55,110,110,QPixmap(":/mode/dogetower2.png"));
+        painter->restore();
+    }}
+    else if(type==1){
+        painter->save();
+        painter->drawPixmap(_pos.x()-55,_pos.y()-55,110,110,_sprite);
         painter->restore();
     }
     painter->drawEllipse(_pos,_range,_range);
@@ -115,6 +125,11 @@ QPoint Tower::returnpoint()
 {
     return _pos;
 }
+
+int Tower::returntype()
+{
+    return type;
+}
 int Tower::range(){
     return _range;
 }
@@ -135,5 +150,5 @@ void Tower::removeTower(){
 void Tower::upload(){
     lv=2;
     _range=300;
-    _damage=40;
+    firerate=100;
 }

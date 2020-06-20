@@ -25,17 +25,6 @@ Choose::Choose(QWidget *parent) : QMainWindow(parent)
               easylevel->show();
           });
     });
-    hardlevel=new Hardlevel;
-    connect(hard,&Button1::clicked,[=](){
-          hard->tiao();
-          hard->jiang();
-          //进入下一个场景
-          QTimer::singleShot(500,this,[=](){
-
-              this->hide();
-              hardlevel ->show();
-          });
-    });
 
 }
 void Choose::paintEvent(QPaintEvent *){

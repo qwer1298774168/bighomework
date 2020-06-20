@@ -18,6 +18,7 @@ public:
     void paintEvent(QPaintEvent *);
     Choose * choose =NULL;
     Rule *rule=NULL;
+    Easylevel * easy=NULL;
 
 private:
     Ui::MainWindow *ui;

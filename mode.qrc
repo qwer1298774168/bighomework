@@ -30,5 +30,7 @@
         <file>mode/background.png</file>
         <file>mode/map1.png</file>
         <file>mode/huajitower.png</file>
+        <file>mode/dogetower.png</file>
+        <file>mode/dogetower2.png</file>
     </qresource>
 </RCC>

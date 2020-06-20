@@ -73,6 +73,7 @@ void Enemy::move(){
         }
         else{
             setdead();
+            easy->getDamagedeng();
         }
    }
    QPoint targetpoint = _pos2->pos();

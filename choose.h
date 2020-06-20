@@ -12,7 +12,6 @@ public:
     //进入选择关卡界面以后要重新绘制背景图片
     void paintEvent(QPaintEvent *event);
     Easylevel* easylevel;
-    Hardlevel* hardlevel;
 signals:
 
 public slots:

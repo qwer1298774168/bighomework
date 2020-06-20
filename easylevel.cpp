@@ -18,21 +18,30 @@ Easylevel::Easylevel(QWidget *parent) : QMainWindow(parent)
     gold=50;
     reward=14;
     cost=25;
+    cost2=25;
     i=0;
+    deng=20;
+    win=false;
+    lost=false;
     this->setFixedSize(1200,800);
     loadTowerposition();
     wayPoint();
-    Button1 * add1 = new Button1(":/mode/enemyb.png");
+    Button1 * add1 = new Button1(":/mode/easy.png");
     add1->setParent(this);
     add1->move(0,0);
     connect(add1, &Button1::clicked,this,[=](){
-        delete add1;
-        QTimer * timer = new QTimer(this);
-        connect(timer,SIGNAL(timeout()),this,SLOT(gengxin()));
-        timer->start(8);
-        QTimer * timer2= new QTimer(this);
-        connect(timer2,&QTimer::timeout,this,&Easylevel::addEnemy);
-        timer2->start(2000);
+        add1->tiao();
+        add1->jiang();
+        QTimer::singleShot(500,this,[=](){
+            delete add1;
+            QTimer * timer = new QTimer(this);
+            connect(timer,SIGNAL(timeout()),this,SLOT(gengxin()));
+            timer->start(8);
+            QTimer * timer2= new QTimer(this);
+            connect(timer2,&QTimer::timeout,this,&Easylevel::addEnemy);
+            timer2->start(2000);
+        });
+
        //QTimer::singleShot(100,this,SLOT(addEnemy()));
     });
 }
@@ -66,11 +75,31 @@ bool Easylevel::canbuytower(){
         return false;
     }
 }
+void Easylevel::setlost(){
+    if(deng<=0){
+       lost=true;
+    }
 
+}
+void Easylevel::setwin(){
+    win=true;
+}
 void Easylevel::drawgold(QPainter * painter)
 {
     painter->setPen(QPen(Qt::green));
     painter->drawText(QRect(200, 5,200, 100), QString("GOLD : %1").arg(gold));
+}
+
+void Easylevel::drawhp(QPainter *painter)
+{
+    painter->setPen(QPen(Qt::green));
+    painter->drawText(QRect(1000,400,10,10),QString("HP : %1").arg(deng));
+}
+
+void Easylevel::getDamagedeng()
+{
+    deng=deng-1;
+    qDebug()<<deng;
 }
 bool Easylevel::loadWave()
 {
@@ -97,6 +126,9 @@ bool Easylevel::loadWave()
            enemy->update();
            enemy->update();
            enemy_list.push_back(enemy);
+       }
+       if(counter2>22){
+           setwin();
        }
    }
    return true;
@@ -185,6 +217,12 @@ void Easylevel::paintEvent(QPaintEvent *){
     QPixmap pix;
     pix.load(":/mode/map4.jpg");
     painter.drawPixmap(0,0,this->width(),this->height(),pix);
+
+    if(lost){
+        QPixmap pix3;
+        pix3.load(":/mode/map1.png");
+        painter.drawPixmap(0,0,this->width(),this->height(),pix3);
+    }
     //绘制塔台
 
     foreach (const Towerposition&towerposition, towerposition_list)
@@ -198,63 +236,93 @@ void Easylevel::paintEvent(QPaintEvent *){
     foreach(const TurnPoint *turnpoint,turnpoint_list){
         turnpoint->draw(&painter);
     }
+    foreach(Fire * fire,fire_list){
+        fire->draw(&painter);
+    }
     foreach(Enemy *enemy1,enemy_list){
         if(enemy1->returnlife()){
            enemy1->draw0(&painter);
         }
     }
-    foreach(Fire * fire,fire_list){
-        fire->draw(&painter);
-    }
+
     //绘制阿等
     QPixmap pix2;
     pix2.load(":/mode/dengjie.png");
     painter.drawPixmap(1100-60,290-130,260,260,pix2);
     drawgold(&painter);
+    drawhp(&painter);
+    if(win){
+        painter.drawPixmap(0,0,this->width(),this->height(),QPixmap(":/mode/start.jpg"));
+    }
 }
 
 //设置鼠标事件
 void Easylevel::mousePressEvent(QMouseEvent *event){
-    if(event->button()==Qt::LeftButton)//鼠标左击
-  {
     QPoint pressPos = event->pos();
     //list的循环结构
     auto it=towerposition_list.begin();
     while(it!=towerposition_list.end()) {
-
-        if(it->containPoint(pressPos)&&!it->hastower()&&canbuytower()){
+        if(it->containPoint(pressPos)&&!it->hastower()&&canbuytower()&&event->button()==Qt::LeftButton)
+        {
             Tower * tower= new Tower(it->centerPos(),this);
             tower->placeTower();
             it->addtower();
+            tower->settype(1);
             gold=gold-cost;
             tower_list.push_back(tower);
             ++i;
             update();
             break;
          }
-        if(it->containPoint(pressPos)&&it->hastower()){
+        if(it->containPoint(pressPos)&&it->hastower()&&event->button()==Qt::LeftButton)
+        {
             qDebug()<<i;
             for(int j=0;j<i;j++){
                 int x=abs(pressPos.x()-tower_list[j]->returnpoint().x());
                 int y=abs(pressPos.y()-tower_list[j]->returnpoint().y());
                 int length=qSqrt(x*x+y*y);
                 qDebug()<<length;
-                if(length<100){
+                if(length<100&&tower_list[j]->returntype()==1){
+                    tower_list[j]->enemykilled();
                     it->removethistower();
                     tower_list.removeAt(j);
-                    --i;
                     gold=gold+10;
+                    --i;
                 }
             }
-
-
+            update();
+            break;
+        }
+        if(it->containPoint(pressPos)&&!it->hastower()&&canbuytower()&&event->button()==Qt::RightButton)
+        {
+            Tower * tower= new Tower(it->centerPos(),this);
+            tower->placeTower();
+            tower->settype(2);
+            it->addtower();
+            gold=gold-cost2;
+            tower_list.push_back(tower);
+            ++i;
+            update();
+            break;
+         }
+        if(it->containPoint(pressPos)&&it->hastower()&&event->button()==Qt::RightButton&&gold>=60)
+        {
+            qDebug()<<i;
+            for(int j=0;j<i;j++){
+                int x=abs(pressPos.x()-tower_list[j]->returnpoint().x());
+                int y=abs(pressPos.y()-tower_list[j]->returnpoint().y());
+                int length=qSqrt(x*x+y*y);
+                qDebug()<<length;
+                if(length<100&&tower_list[j]->returntype()==2){
+                    tower_list[j]->upload();
+                    gold=gold-60;
+                    update();
+                    break;
+                }
+            }
             update();
             break;
         }
         ++it;
     }
-
-   }
-
-
 }

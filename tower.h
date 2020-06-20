@@ -31,9 +31,12 @@ public:
     void attackenemy();
     void enemykilled();
     void outofrange();
+    void settype(int m);
     QPoint returnpoint();
+    int returntype();
 private:
     Enemy * target;
+    int type;
     QTimer* rate;
     Easylevel * easylevel;
     QPoint _pos;
