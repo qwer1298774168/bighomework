@@ -45,7 +45,7 @@ private:
     TurnPoint* _pos2;//怪物每次设置的目标位置
     int _lv;//怪物的等级
     bool _active;
-    int HP;
+    qreal HP;
     QList<Tower*>attackenemy_list;
 signals:
 

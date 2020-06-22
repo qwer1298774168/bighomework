@@ -17,30 +17,40 @@ Easylevel::Easylevel(QWidget *parent) : QMainWindow(parent)
 {
     counter=0;
     counter2=0;
-    gold=50;
+    gold=0;
     reward=14;
     cost=25;
     cost2=28;
     i=0;
-    deng=20;
+    deng=5;
     win=false;
     lost=false;
+    easy1=false;
+    hard1=false;
     player1 = new QMediaPlayer;
     player1->setMedia(QUrl("qrc:/sound/guanqiabgm.mp3"));
     player1->setVolume(30);
     this->setFixedSize(1200,800);
-    loadTowerposition();
-    wayPoint();
     Button1 * easy = new Button1(":/mode/easy.png");
     easy->setParent(this);
-    easy->setFixedSize(50,50);
-    easy->move(0,0);
+    easy->move(200,500);
+    Button1 * hard = new Button1(":/mode/hard2.png");
+    hard->setParent(this);
+    hard->move(200,620);
+    Button3* back= new Button3(":/mode/back1.png",":/mode/back2.png");
+    back->setParent(this);
+    back->move(996,0);
     connect(easy, &Button1::clicked,this,[=](){
         easy->tiao();
         easy->jiang();
+        seteasy();
         player1->play();
         QTimer::singleShot(500,this,[=](){
             delete easy;
+            delete hard;
+            delete back;
+            wayPoint();
+            loadTowerposition();
             QTimer * timer = new QTimer(this);
             connect(timer,SIGNAL(timeout()),this,SLOT(gengxin()));
             timer->start(8);
@@ -48,12 +58,28 @@ Easylevel::Easylevel(QWidget *parent) : QMainWindow(parent)
             connect(timer2,&QTimer::timeout,this,&Easylevel::addEnemy);
             timer2->start(2000);
         });
-
-       //QTimer::singleShot(100,this,SLOT(addEnemy()));
     });
-    Button3* back= new Button3(":/mode/back1.png",":/mode/back2.png");
-    back->setParent(this);
-    back->move(996,0);
+    connect(hard,&Button1::clicked,this,[=](){
+        hard->tiao();
+        hard->jiang();
+
+        player1->play();
+        sethard();
+        QTimer::singleShot(500,this,[=](){
+            delete easy;
+            delete hard;
+            delete back;
+            wayPoint();
+            loadTowerposition();
+            QTimer * timer = new QTimer(this);
+            connect(timer,SIGNAL(timeout()),this,SLOT(gengxin()));
+            timer->start(5);
+            QTimer * timer2= new QTimer(this);
+            connect(timer2,&QTimer::timeout,this,&Easylevel::addEnemy);
+            timer2->start(2000);
+        });
+    });
+
 
     connect(back,&Button3::clicked,[=](){
         QTimer::singleShot(500,this,[=](){
@@ -116,17 +142,11 @@ void Easylevel::musicpause()
 {
     player1->pause();
 }
-void Easylevel::drawgold(QPainter * painter)
-{
+void Easylevel::drawgold(QPainter *painter){
     painter->setPen(QPen(Qt::green));
-    painter->drawText(QRect(200, 5,200, 100), QString("GOLD : %1").arg(gold));
+    painter->drawText(QRect(200,5,100,100),QString("GOLD: %1").arg(gold));
 }
 
-void Easylevel::drawhp(QPainter *painter)
-{
-    painter->setPen(QPen(Qt::green));
-    painter->drawText(QRect(1000,400,10,10),QString("HP : %1").arg(deng));
-}
 
 void Easylevel::getDamagedeng()
 {
@@ -164,6 +184,15 @@ bool Easylevel::loadWave()
            enemy->update();
            enemy->update();
            //player->play();
+           enemy_list.push_back(enemy);
+       }
+       if(counter2>22&&hard1&&counter2<25){
+           reward=100;
+           enemy->setactive();
+           for(int i =0;i<6;i++){
+               enemy->update();
+           }
+           qDebug()<<counter2<<"abc";
            enemy_list.push_back(enemy);
        }
        if(counter2>22&&enemy_list.empty()&&counter2<30){
@@ -236,7 +265,7 @@ void Easylevel::wayPoint(){
 }
 //储存塔台的位置并将其置入qlist中
 void Easylevel::loadTowerposition(){
-    QPoint pos[15]={
+    QPoint pos[14]={
       QPoint(280,310),
       QPoint(80,310),
       QPoint(295,420),
@@ -247,11 +276,11 @@ void Easylevel::loadTowerposition(){
       QPoint(830,510),
       QPoint(945,510),
       QPoint(80,200),
-      QPoint(685,170),
+
       QPoint(685,270),
       QPoint(190,540),
-      QPoint(395,310),
-      QPoint(510,310)
+      QPoint(390,310),
+      QPoint(500,310)
     };
     int len=sizeof(pos)/sizeof(pos[0]);
     for(int i=0;i<len;i++){
@@ -259,13 +288,27 @@ void Easylevel::loadTowerposition(){
     }
 }
 //绘制事件
+void Easylevel::seteasy(){
+    easy1=true;
+    gold=60;
+}
+void Easylevel::sethard(){
+    hard1=true;
+    gold=50;
+}
 void Easylevel::paintEvent(QPaintEvent *){
 
     QPainter painter(this);
     QPixmap pix;
-    pix.load(":/mode/map4.jpg");
-    painter.drawPixmap(0,0,this->width(),this->height(),pix);
+    pix.load(":/mode/background.png");
+    if(easy1&&!hard1){
+        pix.load(":/mode/map4.jpg");
+    }
+    if(hard1&&!easy1){
+        pix.load(":/mode/map1.png");
+    }
 
+    painter.drawPixmap(0,0,this->width(),this->height(),pix);
 
     //绘制塔台
 
@@ -294,7 +337,6 @@ void Easylevel::paintEvent(QPaintEvent *){
     pix2.load(":/mode/dengjie.png");
     painter.drawPixmap(1100-60,290-130,260,260,pix2);
     drawgold(&painter);
-    drawhp(&painter);
     if(win){
         painter.drawPixmap(0,0,this->width(),this->height(),QPixmap(":/mode/start.jpg"));
     }
@@ -372,7 +414,7 @@ void Easylevel::mousePressEvent(QMouseEvent *event){
                 int y=abs(pressPos.y()-tower_list[j]->returnpoint().y());
                 int length=qSqrt(x*x+y*y);
                 qDebug()<<length;
-                if(length<100&&tower_list[j]->returntype()==2){
+                if(length<100&&tower_list[j]->returntype()==2&&tower_list[j]->level()==1){
                     tower_list[j]->upload();
                     gold=gold-60;
                     QMediaPlayer * player= new QMediaPlayer;

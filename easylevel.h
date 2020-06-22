@@ -31,17 +31,20 @@ public:
     bool canbuytower();
     bool canbuytower2();
     void drawgold(QPainter * painter);
-    void drawhp(QPainter * painter);
     void getDamagedeng();
     void setlost();
     void setwin();
     void musicpause();
+    void seteasy();
+    void sethard();
 private slots:
     void addEnemy();
     void gengxin();
 private:
     int gold;
     int i;
+    bool easy1;
+    bool hard1;
     int deng;
     int reward;
     int cost;

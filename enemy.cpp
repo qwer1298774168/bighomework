@@ -88,12 +88,31 @@ void Enemy::draw0(QPainter*painter){
 
 
     if(_lv==1){
-    painter->drawPixmap(_pos.x()-25,_pos.y()-50,50,100, QPixmap(":/mode/enemya.png"));}
+        painter->setPen(Qt::red);
+        painter->drawRect(_pos.x()-25,_pos.y()-50,50,1);
+        painter->setPen(Qt::green);
+        painter->drawRect(_pos.x()-25,_pos.y()-50,50*(HP/40),1);
+        painter->drawPixmap(_pos.x()-25,_pos.y()-50,50,100, QPixmap(":/mode/enemya.png"));}
     if(_lv==2){
-    painter->drawPixmap(_pos.x()-75,_pos.y()-75,150,150,QPixmap(":/mode/enemyc.png"));
+        painter->setPen(Qt::red);
+        painter->drawRect(_pos.x()-20,_pos.y()-50,50,1);
+        painter->setPen(Qt::green);
+        painter->drawRect(_pos.x()-20,_pos.y()-50,50*(HP/80),1);
+        painter->drawPixmap(_pos.x()-75,_pos.y()-75,150,150,QPixmap(":/mode/enemyc.png"));
     }
     if(_lv==3){
-    painter->drawPixmap(_pos.x()-75,_pos.y()-75,150,150,QPixmap(":/mode/enemyb.png"));
+        painter->setPen(Qt::red);
+        painter->drawRect(_pos.x()-20,_pos.y()-50,50,1);
+        painter->setPen(Qt::green);
+        painter->drawRect(_pos.x()-20,_pos.y()-50,50*(HP/120),1);
+        painter->drawPixmap(_pos.x()-75,_pos.y()-75,150,150,QPixmap(":/mode/enemyb.png"));
+    }
+    if(_lv==7){
+        painter->setPen(Qt::red);
+        painter->drawRect(_pos.x()-60,_pos.y()-100,50,1);
+        painter->setPen(Qt::green);
+        painter->drawRect(_pos.x()-60,_pos.y()-100,50*(HP/280),1);
+        painter->drawPixmap(_pos.x()-125,_pos.y()-125,250,250,QPixmap(":/mode/enemyb.png"));
     }
 
 }

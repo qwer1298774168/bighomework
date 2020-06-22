@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
           //进入下一个场景
           QTimer::singleShot(500,this,[=](){
               this->hide();
-              player->pause();
+              player->stop();
               easy ->show();
           });
     });
@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(easy,&Easylevel::ruleback,this,[=](){
         easy->hide();
         easy->musicpause();
+        player->play();
         this->show();
     });
     connect(rule1,&Button2::clicked,[=](){
