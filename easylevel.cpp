@@ -64,10 +64,6 @@ Easylevel::Easylevel(QWidget *parent) : QMainWindow(parent)
 }
 void Easylevel::removeoneenemy(Enemy *enemy2){
     Q_ASSERT(enemy2);
-    QMediaPlayer * player= new QMediaPlayer;
-    player->setMedia(QUrl("qrc:/sound/enemydead.mp3"));
-    player->setVolume(100);
-    player->play();
     if(!enemy_list.empty()){
         gold=gold+reward;
         enemy_list.removeOne(enemy2);
