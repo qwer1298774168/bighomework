@@ -20,7 +20,7 @@ Easylevel::Easylevel(QWidget *parent) : QMainWindow(parent)
     gold=50;
     reward=14;
     cost=25;
-    cost2=30;
+    cost2=28;
     i=0;
     deng=20;
     win=false;
