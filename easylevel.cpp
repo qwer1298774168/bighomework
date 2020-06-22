@@ -7,6 +7,7 @@
 #include<windows.h>
 #include"turnpoint.h"
 #include"button1.h"
+#include"button3.h"
 #include"enemy.h"
 #include<cstdlib>
 #include"fire.h"
@@ -49,6 +50,16 @@ Easylevel::Easylevel(QWidget *parent) : QMainWindow(parent)
         });
 
        //QTimer::singleShot(100,this,SLOT(addEnemy()));
+    });
+    Button3* back= new Button3(":/mode/back1.png",":/mode/back2.png");
+    back->setParent(this);
+    back->move(996,0);
+
+    connect(back,&Button3::clicked,[=](){
+        QTimer::singleShot(500,this,[=](){
+            emit this->ruleback();
+
+        });
     });
 }
 void Easylevel::removeoneenemy(Enemy *enemy2){
@@ -103,6 +114,11 @@ void Easylevel::setlost(){
 }
 void Easylevel::setwin(){
     win=true;
+}
+
+void Easylevel::musicpause()
+{
+    player1->pause();
 }
 void Easylevel::drawgold(QPainter * painter)
 {

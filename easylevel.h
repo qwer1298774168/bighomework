@@ -35,6 +35,7 @@ public:
     void getDamagedeng();
     void setlost();
     void setwin();
+    void musicpause();
 private slots:
     void addEnemy();
     void gengxin();
@@ -58,7 +59,7 @@ private:
     void wayPoint();//添加怪物行走的节点
     void loadTowerposition();//添加放置防御塔的塔台
 signals:
-
+    void ruleback();
 public slots:
 };
 

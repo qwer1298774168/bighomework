@@ -47,6 +47,11 @@ MainWindow::MainWindow(QWidget *parent) :
         rule->hide();
         this->show();
     });
+    connect(easy,&Easylevel::ruleback,this,[=](){
+        easy->hide();
+        easy->musicpause();
+        this->show();
+    });
     connect(rule1,&Button2::clicked,[=](){
         player2->play();
         QTimer::singleShot(500,this,[=](){
