@@ -9,6 +9,7 @@
 #include"fire.h"
 #include<QList>
 #include<QTime>
+#include<QMediaPlayer>
 class Enemy;
 class Tower;
 class Towerposition;
@@ -28,6 +29,7 @@ public:
     void removeoneenemy(Enemy * enemy2);
     QList<Enemy*>          enemy_list;
     bool canbuytower();
+    bool canbuytower2();
     void drawgold(QPainter * painter);
     void drawhp(QPainter * painter);
     void getDamagedeng();
@@ -47,6 +49,7 @@ private:
     int counter2;
     bool win;
     bool lost;
+    QMediaPlayer * player1;
     QList<Towerposition>   towerposition_list;
     QList<Tower*>          tower_list;
     QList<TurnPoint*>      turnpoint_list;

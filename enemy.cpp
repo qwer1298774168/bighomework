@@ -4,6 +4,7 @@
 #include"turnpoint.h"
 #include<QVector2D>
 #include<time.h>
+#include<QMediaPlayer>
 //Enemy::Enemy(QObject *parent) : QObject(parent)
 //Enemy的构造函数
 Enemy::Enemy(TurnPoint *startpos, Easylevel *easy):QObject(0){
@@ -48,7 +49,7 @@ void Enemy::removeenemy(){
     }
     foreach(Tower * tower, attackenemy_list){
         tower->enemykilled();
-        }
+    }
     easy->removeoneenemy(this);
 
 }

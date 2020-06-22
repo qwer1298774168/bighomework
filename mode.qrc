@@ -32,5 +32,18 @@
         <file>mode/huajitower.png</file>
         <file>mode/dogetower.png</file>
         <file>mode/dogetower2.png</file>
+        <file>sound/addenemy.mp3</file>
+        <file>sound/delettower.mp3</file>
+        <file>sound/enemydead.mp3</file>
+        <file>sound/guanqiabgm.mp3</file>
+        <file>sound/placetower.mp3</file>
+        <file>sound/rulebgm.mp3</file>
+        <file>sound/startbgm.mp3</file>
+        <file>sound/victory.mp3</file>
+        <file>sound/lvup.mp3</file>
+        <file>mode/back1.png</file>
+        <file>mode/back2.png</file>
+        <file>mode/rule.png</file>
+        <file>sound/addenemy1.mp3</file>
     </qresource>
 </RCC>

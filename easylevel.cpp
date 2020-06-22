@@ -11,6 +11,7 @@
 #include<cstdlib>
 #include"fire.h"
 #include<QtMath>
+#include<QMediaPlayer>
 Easylevel::Easylevel(QWidget *parent) : QMainWindow(parent)
 {
     counter=0;
@@ -18,22 +19,27 @@ Easylevel::Easylevel(QWidget *parent) : QMainWindow(parent)
     gold=50;
     reward=14;
     cost=25;
-    cost2=25;
+    cost2=30;
     i=0;
     deng=20;
     win=false;
     lost=false;
+    player1 = new QMediaPlayer;
+    player1->setMedia(QUrl("qrc:/sound/guanqiabgm.mp3"));
+    player1->setVolume(30);
     this->setFixedSize(1200,800);
     loadTowerposition();
     wayPoint();
-    Button1 * add1 = new Button1(":/mode/easy.png");
-    add1->setParent(this);
-    add1->move(0,0);
-    connect(add1, &Button1::clicked,this,[=](){
-        add1->tiao();
-        add1->jiang();
+    Button1 * easy = new Button1(":/mode/easy.png");
+    easy->setParent(this);
+    easy->setFixedSize(50,50);
+    easy->move(0,0);
+    connect(easy, &Button1::clicked,this,[=](){
+        easy->tiao();
+        easy->jiang();
+        player1->play();
         QTimer::singleShot(500,this,[=](){
-            delete add1;
+            delete easy;
             QTimer * timer = new QTimer(this);
             connect(timer,SIGNAL(timeout()),this,SLOT(gengxin()));
             timer->start(8);
@@ -47,6 +53,10 @@ Easylevel::Easylevel(QWidget *parent) : QMainWindow(parent)
 }
 void Easylevel::removeoneenemy(Enemy *enemy2){
     Q_ASSERT(enemy2);
+    QMediaPlayer * player= new QMediaPlayer;
+    player->setMedia(QUrl("qrc:/sound/enemydead.mp3"));
+    player->setVolume(100);
+    player->play();
     if(!enemy_list.empty()){
         gold=gold+reward;
         enemy_list.removeOne(enemy2);
@@ -69,6 +79,16 @@ void Easylevel::addEnemy(){
 }
 bool Easylevel::canbuytower(){
     if(gold>=cost){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+bool Easylevel::canbuytower2()
+{
+    if(gold>=cost2){
         return true;
     }
     else{
@@ -104,6 +124,10 @@ void Easylevel::getDamagedeng()
 bool Easylevel::loadWave()
 {
     counter2++;
+    QMediaPlayer * player= new QMediaPlayer;
+    player->setMedia(QUrl("qrc:/sound/addenemy1.mp3"));
+    player->setVolume(50);
+
    if(counter>=22){
        return false;}
    else{
@@ -112,12 +136,14 @@ bool Easylevel::loadWave()
        if(counter2<=6){
            reward=14;
        enemy->setactive();
+      // player->play();
        enemy_list.push_back(enemy);
        }
        if(counter2>6&&counter2<=15){
            reward=18;
            enemy->setactive();
            enemy->update();
+           //player->play();
            enemy_list.push_back(enemy);
        }
        if(counter2>15&&counter2<=22){
@@ -125,10 +151,20 @@ bool Easylevel::loadWave()
           enemy->setactive();
            enemy->update();
            enemy->update();
+           //player->play();
            enemy_list.push_back(enemy);
        }
-       if(counter2>22){
+       if(counter2>22&&enemy_list.empty()&&counter2<30){
+           player1->pause();
            setwin();
+
+       }
+       if(deng<=0){
+           player1->pause();
+           enemy_list.removeAll(enemy);
+           counter2=30;
+           setlost();
+
        }
    }
    return true;
@@ -218,11 +254,7 @@ void Easylevel::paintEvent(QPaintEvent *){
     pix.load(":/mode/map4.jpg");
     painter.drawPixmap(0,0,this->width(),this->height(),pix);
 
-    if(lost){
-        QPixmap pix3;
-        pix3.load(":/mode/map1.png");
-        painter.drawPixmap(0,0,this->width(),this->height(),pix3);
-    }
+
     //绘制塔台
 
     foreach (const Towerposition&towerposition, towerposition_list)
@@ -254,6 +286,9 @@ void Easylevel::paintEvent(QPaintEvent *){
     if(win){
         painter.drawPixmap(0,0,this->width(),this->height(),QPixmap(":/mode/start.jpg"));
     }
+    if(lost){
+        painter.drawPixmap(0,0,this->width(),this->height(),QPixmap(":/mode/map1.png"));
+    }
 }
 
 //设置鼠标事件
@@ -270,6 +305,10 @@ void Easylevel::mousePressEvent(QMouseEvent *event){
             tower->settype(1);
             gold=gold-cost;
             tower_list.push_back(tower);
+            QMediaPlayer * player= new QMediaPlayer;
+            player->setMedia(QUrl("qrc:/sound/placetower.mp3"));
+            player->setVolume(100);
+            player->play();
             ++i;
             update();
             break;
@@ -286,6 +325,10 @@ void Easylevel::mousePressEvent(QMouseEvent *event){
                     tower_list[j]->enemykilled();
                     it->removethistower();
                     tower_list.removeAt(j);
+                    QMediaPlayer * player= new QMediaPlayer;
+                    player->setMedia(QUrl("qrc:/sound/delettower.mp3"));
+                    player->setVolume(100);
+                    player->play();
                     gold=gold+10;
                     --i;
                 }
@@ -293,13 +336,17 @@ void Easylevel::mousePressEvent(QMouseEvent *event){
             update();
             break;
         }
-        if(it->containPoint(pressPos)&&!it->hastower()&&canbuytower()&&event->button()==Qt::RightButton)
+        if(it->containPoint(pressPos)&&!it->hastower()&&canbuytower2()&&event->button()==Qt::RightButton)
         {
             Tower * tower= new Tower(it->centerPos(),this);
             tower->placeTower();
             tower->settype(2);
             it->addtower();
             gold=gold-cost2;
+            QMediaPlayer * player= new QMediaPlayer;
+            player->setMedia(QUrl("qrc:/sound/placetower.mp3"));
+            player->setVolume(100);
+            player->play();
             tower_list.push_back(tower);
             ++i;
             update();
@@ -316,6 +363,10 @@ void Easylevel::mousePressEvent(QMouseEvent *event){
                 if(length<100&&tower_list[j]->returntype()==2){
                     tower_list[j]->upload();
                     gold=gold-60;
+                    QMediaPlayer * player= new QMediaPlayer;
+                    player->setMedia(QUrl("qrc:/sound/lvup.mp3"));
+                    player->setVolume(100);
+                    player->play();
                     update();
                     break;
                 }

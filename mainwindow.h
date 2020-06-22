@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include"choose.h"
 #include"rule.h"
+class Rule;
 namespace Ui {
 class MainWindow;
 }

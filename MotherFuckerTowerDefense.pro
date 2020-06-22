@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-
+QT       += multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = MotherFuckerTowerDefense
@@ -35,7 +35,8 @@ SOURCES += \
     enemy.cpp \
     button2.cpp \
     rule.cpp \
-    fire.cpp
+    fire.cpp \
+    button3.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,7 +49,8 @@ HEADERS += \
     enemy.h \
     button2.h \
     rule.h \
-    fire.h
+    fire.h \
+    button3.h
 
 FORMS += \
         mainwindow.ui
